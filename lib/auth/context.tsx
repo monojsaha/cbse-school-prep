@@ -53,6 +53,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
+    // Set cookie immediately so middleware doesn't bounce the redirect
+    // before onAuthStateChanged has a chance to fire.
+    document.cookie = `sf_session=1; path=/; max-age=86400; SameSite=Lax`;
   };
 
   const signUp = async (email: string, password: string): Promise<User> => {
