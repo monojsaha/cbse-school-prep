@@ -38,15 +38,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u);
-      if (u) {
-        await loadProfile(u.uid);
-        // Set a simple session cookie for middleware
-        document.cookie = `sf_session=1; path=/; max-age=86400; SameSite=Lax`;
-      } else {
-        setProfile(null);
-        document.cookie = "sf_session=; path=/; max-age=0";
+      try {
+        if (u) {
+          await loadProfile(u.uid);
+          document.cookie = `sf_session=1; path=/; max-age=86400; SameSite=Lax`;
+        } else {
+          setProfile(null);
+          document.cookie = "sf_session=; path=/; max-age=0";
+        }
+      } catch (err) {
+        console.error("Profile load failed:", err);
+        // Always unblock the UI even if Firestore is unreachable
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
     return unsub;
   }, []);
