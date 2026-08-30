@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { ChevronLeft, SkipForward } from "lucide-react";
 import { useAuth } from "@/lib/auth/context";
@@ -20,7 +20,7 @@ import type { Question } from "@/types";
 
 const SESSION_LENGTH = 10;
 
-export default function SessionPage() {
+function SessionInner() {
   const { subject } = useParams<{ subject: string }>();
   const params      = useSearchParams();
   const router      = useRouter();
@@ -364,5 +364,13 @@ export default function SessionPage() {
         />
       )}
     </div>
+  );
+}
+
+export default function SessionPage() {
+  return (
+    <Suspense fallback={<PageLoader />}>
+      <SessionInner />
+    </Suspense>
   );
 }
