@@ -1,10 +1,11 @@
 import Link from "next/link";
-import { Calculator, Atom, FlaskConical, PenLine, BookOpen, Trophy, ChevronRight } from "lucide-react";
+import { Calculator, Atom, FlaskConical, PenLine, BookOpen, Trophy, ChevronRight, Leaf, BookA, Globe, Landmark, Scale } from "lucide-react";
 import { cn, masteryColor, masteryLevel } from "@/lib/utils";
 import { Progress } from "@/components/ui/Progress";
 
 const ICONS = {
   Calculator, Atom, FlaskConical, PenLine, BookOpen, Trophy,
+  Leaf, BookA, Globe, Landmark, Scale,
 };
 
 interface SubjectCardProps {

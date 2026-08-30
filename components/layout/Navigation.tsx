@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard, Calculator, Atom, FlaskConical,
   PenLine, BookOpen, BarChart3, User, LogOut, Flame,
+  Leaf, BookA, Globe, Landmark, Scale,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/lib/auth/context";
@@ -19,9 +20,14 @@ const NAV_ITEMS = [
 ];
 
 const SUBJECT_ITEMS = [
-  { href: "/practice/mathematics", label: "Mathematics", icon: Calculator, cls: "text-math-600" },
-  { href: "/practice/physics",     label: "Physics",     icon: Atom,        cls: "text-physics-600" },
-  { href: "/practice/chemistry",   label: "Chemistry",   icon: FlaskConical,cls: "text-chemistry-600" },
+  { href: "/practice/mathematics",    label: "Mathematics",    icon: Calculator,  cls: "text-math-600" },
+  { href: "/practice/physics",        label: "Physics",        icon: Atom,        cls: "text-physics-600" },
+  { href: "/practice/chemistry",      label: "Chemistry",      icon: FlaskConical,cls: "text-chemistry-600" },
+  { href: "/practice/biology",        label: "Biology",        icon: Leaf,        cls: "text-biology-600" },
+  { href: "/practice/english-grammar",label: "Eng. Grammar",  icon: BookA,       cls: "text-grammar-600" },
+  { href: "/practice/geography",      label: "Geography",      icon: Globe,       cls: "text-geo-600" },
+  { href: "/practice/history",        label: "History",        icon: Landmark,    cls: "text-history-600" },
+  { href: "/practice/civics",         label: "Civics",         icon: Scale,       cls: "text-civics-600" },
 ];
 
 function NavLink({

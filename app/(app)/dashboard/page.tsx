@@ -118,39 +118,29 @@ export default function DashboardPage() {
       <div>
         <h2 className="text-sm font-semibold text-neutral-500 uppercase tracking-wider mb-3">Subjects</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <SubjectCard
-            href="/practice/mathematics"
-            label="Mathematics"
-            icon="Calculator"
-            mastery={subjectMastery("mathematics")}
-            bgClass={SUBJECT_CONFIG.mathematics.bgClass}
-            textClass={SUBJECT_CONFIG.mathematics.textClass}
-            borderClass="border-math-200"
-            fillClass="bg-math-500"
-            description="Class 7 ICSE"
-          />
-          <SubjectCard
-            href="/practice/physics"
-            label="Physics"
-            icon="Atom"
-            mastery={subjectMastery("physics")}
-            bgClass={SUBJECT_CONFIG.physics.bgClass}
-            textClass={SUBJECT_CONFIG.physics.textClass}
-            borderClass="border-physics-200"
-            fillClass="bg-physics-500"
-            description="Class 7 ICSE"
-          />
-          <SubjectCard
-            href="/practice/chemistry"
-            label="Chemistry"
-            icon="FlaskConical"
-            mastery={subjectMastery("chemistry")}
-            bgClass={SUBJECT_CONFIG.chemistry.bgClass}
-            textClass={SUBJECT_CONFIG.chemistry.textClass}
-            borderClass="border-chemistry-200"
-            fillClass="bg-chemistry-500"
-            description="Class 7 ICSE"
-          />
+          {([
+            { href: "/practice/mathematics",    label: "Mathematics",    icon: "Calculator" as const, mastery: subjectMastery("mathematics"),    bg: SUBJECT_CONFIG.mathematics.bgClass,             text: SUBJECT_CONFIG.mathematics.textClass,             border: "border-math-200",    fill: "bg-math-500" },
+            { href: "/practice/physics",        label: "Physics",        icon: "Atom"       as const, mastery: subjectMastery("physics"),        bg: SUBJECT_CONFIG.physics.bgClass,                 text: SUBJECT_CONFIG.physics.textClass,                 border: "border-physics-200", fill: "bg-physics-500" },
+            { href: "/practice/chemistry",      label: "Chemistry",      icon: "FlaskConical" as const,mastery: subjectMastery("chemistry"),      bg: SUBJECT_CONFIG.chemistry.bgClass,               text: SUBJECT_CONFIG.chemistry.textClass,               border: "border-chemistry-200",fill: "bg-chemistry-500" },
+            { href: "/practice/biology",        label: "Biology",        icon: "Leaf"       as const, mastery: subjectMastery("biology"),        bg: SUBJECT_CONFIG.biology.bgClass,                 text: SUBJECT_CONFIG.biology.textClass,                 border: "border-biology-200", fill: "bg-biology-500" },
+            { href: "/practice/english-grammar",label: "English Grammar",icon: "BookA"      as const, mastery: subjectMastery("english-grammar"),bg: SUBJECT_CONFIG["english-grammar"].bgClass,      text: SUBJECT_CONFIG["english-grammar"].textClass,      border: "border-grammar-200", fill: "bg-grammar-500" },
+            { href: "/practice/geography",      label: "Geography",      icon: "Globe"      as const, mastery: subjectMastery("geography"),      bg: SUBJECT_CONFIG.geography.bgClass,               text: SUBJECT_CONFIG.geography.textClass,               border: "border-geo-200",     fill: "bg-geo-500" },
+            { href: "/practice/history",        label: "History",        icon: "Landmark"   as const, mastery: subjectMastery("history"),        bg: SUBJECT_CONFIG.history.bgClass,                 text: SUBJECT_CONFIG.history.textClass,                 border: "border-history-200", fill: "bg-history-500" },
+            { href: "/practice/civics",         label: "Civics",         icon: "Scale"      as const, mastery: subjectMastery("civics"),         bg: SUBJECT_CONFIG.civics.bgClass,                  text: SUBJECT_CONFIG.civics.textClass,                  border: "border-civics-200",  fill: "bg-civics-500" },
+          ]).map(({ href, label, icon, mastery, bg, text, border, fill }) => (
+            <SubjectCard
+              key={href}
+              href={href}
+              label={label}
+              icon={icon}
+              mastery={mastery}
+              bgClass={bg}
+              textClass={text}
+              borderClass={border}
+              fillClass={fill}
+              description="Class 7 CBSE"
+            />
+          ))}
           <SubjectCard
             href="/writing"
             label="Writing Studio"
