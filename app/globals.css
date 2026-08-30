@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: "Inter", system-ui, sans-serif;
+  }
+
+  html { @apply antialiased; }
+
+  body {
+    @apply bg-neutral-50 text-neutral-800 min-h-screen;
+    font-family: var(--font-sans);
+  }
+
+  .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-neutral-300 rounded-full; }
+
+  :focus-visible { @apply outline-2 outline-offset-2 outline-brand-500 rounded; }
+  ::selection    { @apply bg-brand-100 text-brand-900; }
+
+  * { -webkit-tap-highlight-color: transparent; }
+}
+
+@layer components {
+  /* Step solution / explanation prose */
+  .prose-sf {
+    @apply text-neutral-700 leading-relaxed text-sm;
+  }
+  .prose-sf strong  { @apply font-semibold text-neutral-900; }
+  .prose-sf code    { @apply bg-neutral-100 px-1.5 py-0.5 rounded text-xs font-mono text-brand-700; }
+  .prose-sf p + p   { @apply mt-2.5; }
+  .prose-sf ol      { @apply list-decimal list-inside space-y-1.5 mt-2; }
+  .prose-sf ul      { @apply list-disc list-inside space-y-1.5 mt-2; }
+
+  /* Subject chip variants */
+  .chip-math      { @apply bg-math-50 text-math-600 border border-math-200; }
+  .chip-physics   { @apply bg-physics-50 text-physics-600 border border-physics-200; }
+  .chip-chemistry { @apply bg-chemistry-50 text-chemistry-600 border border-chemistry-200; }
+  .chip-writing   { @apply bg-writing-50 text-writing-600 border border-writing-200; }
+  .chip-vocab     { @apply bg-vocab-50 text-vocab-600 border border-vocab-200; }
+
+  /* Difficulty chip variants */
+  .chip-easy      { @apply bg-success-50 text-success-700 border border-success-100; }
+  .chip-medium    { @apply bg-warning-50 text-warning-700 border border-warning-100; }
+  .chip-hard      { @apply bg-error-50 text-error-700 border border-error-100; }
+  .chip-challenge { @apply bg-brand-50 text-brand-700 border border-brand-200; }
+}
+
+@layer utilities {
+  .text-2xs { font-size: 0.625rem; line-height: 1rem; }
+  .animate-in { @apply animate-fade-in; }
+}

@@ -1,0 +1,94 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ───────────────────────────────────
+    function isSignedIn()  { return request.auth != null; }
+    function isOwner(uid)  { return request.auth.uid == uid; }
+    function isAdmin()     { return isSignedIn() && request.auth.token.role == "admin"; }
+
+    // ── Public read-only curriculum data ──────────────────
+    match /boards/{doc}          { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /classes/{doc}         { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /subjects/{doc}        { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /chapters/{doc}        { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /topics/{doc}          { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /questions/{doc}       { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /writing_prompts/{doc} { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /vocab_words/{doc}     { allow read: if isSignedIn(); allow write: if isAdmin(); }
+    match /achievements/{doc}    { allow read: if isSignedIn(); allow write: if isAdmin(); }
+
+    // ── Student profile ────────────────────────────────────
+    match /profiles/{userId} {
+      allow read:   if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow create: if isSignedIn() && isOwner(userId);
+      allow update: if isSignedIn() && (isOwner(userId) || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // ── Student progress data ──────────────────────────────
+    match /question_attempts/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    match /student_mastery/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    match /student_mistakes/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+    }
+
+    // ── Vocabulary ─────────────────────────────────────────
+    match /student_words/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    match /vocab_attempts/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    // ── Writing ────────────────────────────────────────────
+    match /writing_submissions/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    // ── Gamification ───────────────────────────────────────
+    match /study_sessions/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+      allow create: if isSignedIn() && isOwner(request.resource.data.studentId);
+    }
+
+    match /student_achievements/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+    }
+
+    match /learning_recommendations/{doc} {
+      allow read, write: if isSignedIn() && (
+        resource == null || isOwner(resource.data.studentId) || isAdmin()
+      );
+    }
+  }
+}
