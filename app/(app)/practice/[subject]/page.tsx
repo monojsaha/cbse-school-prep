@@ -32,11 +32,11 @@ export default function SubjectPage() {
     if (!profile?.classId) return;
     (async () => {
       setLoading(true);
-      // Get the subject document
-      const subjects = await queryDocuments<Subject>(COL.SUBJECTS, [
+      // Get the subject document — single-field filter avoids needing a composite index
+      const allSubjects = await queryDocuments<Subject>(COL.SUBJECTS, [
         where("classId", "==", profile.classId),
-        where("slug", "==", subject),
       ]);
+      const subjects = allSubjects.filter((s) => s.slug === subject);
       if (!subjects.length) { setLoading(false); return; }
       const sid = subjects[0].id;
       setSubjectId(sid);
@@ -84,7 +84,7 @@ export default function SubjectPage() {
         </div>
         <div>
           <h1 className="text-xl font-bold text-neutral-900">{config.label}</h1>
-          <p className="text-xs text-neutral-400">Class 7 ICSE · {chapters.length} chapters</p>
+          <p className="text-xs text-neutral-400">Class 7 · {chapters.length} chapters</p>
         </div>
       </div>
 

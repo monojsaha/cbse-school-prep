@@ -100,28 +100,28 @@ export async function getSubjectsForClass(classId: string): Promise<Subject[]> {
 }
 
 export async function getChaptersForSubject(subjectId: string): Promise<Chapter[]> {
-  return queryDocuments<Chapter>(COL.CHAPTERS, [
+  const rows = await queryDocuments<Chapter>(COL.CHAPTERS, [
     where("subjectId", "==", subjectId),
-    orderBy("orderIndex"),
   ]);
+  return rows.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
 }
 
 export async function getTopicsForChapter(chapterId: string): Promise<Topic[]> {
-  return queryDocuments<Topic>(COL.TOPICS, [
+  const rows = await queryDocuments<Topic>(COL.TOPICS, [
     where("chapterId", "==", chapterId),
-    orderBy("orderIndex"),
   ]);
+  return rows.sort((a, b) => (a.orderIndex ?? 0) - (b.orderIndex ?? 0));
 }
 
 export async function getQuestionsForTopic(
   topicId: string,
   count = 10
 ): Promise<Question[]> {
-  return queryDocuments<Question>(COL.QUESTIONS, [
+  const rows = await queryDocuments<Question>(COL.QUESTIONS, [
     where("topicId", "==", topicId),
-    where("isPublished", "==", true),
     limit(count),
   ]);
+  return rows.filter((q) => q.isPublished !== false);
 }
 
 export async function getStudentMastery(studentId: string): Promise<StudentMastery[]> {
@@ -163,13 +163,13 @@ export async function getWritingPrompts(
   classId: string,
   writingType?: string
 ): Promise<WritingPrompt[]> {
-  const constraints: QueryConstraint[] = [
+  const rows = await queryDocuments<WritingPrompt>(COL.WRITING_PROMPTS, [
     where("classId", "==", classId),
-    where("isPublished", "==", true),
     limit(20),
-  ];
-  if (writingType) constraints.push(where("writingType", "==", writingType));
-  return queryDocuments<WritingPrompt>(COL.WRITING_PROMPTS, constraints);
+  ]);
+  return rows.filter(
+    (p) => p.isPublished !== false && (!writingType || p.writingType === writingType)
+  );
 }
 
 export async function getRecommendations(studentId: string): Promise<LearningRecommendation[]> {
