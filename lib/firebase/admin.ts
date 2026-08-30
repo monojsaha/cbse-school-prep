@@ -24,6 +24,7 @@ export const adminDb = new Proxy({} as ReturnType<typeof getFirestore>, {
   get: (_, prop: string) => {
     const db = getFirestore(getAdminApp());
     const val = (db as unknown as Record<string, unknown>)[prop];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     return typeof val === "function" ? (val as Function).bind(db) : val;
   },
 });
@@ -32,6 +33,7 @@ export const adminAuth = new Proxy({} as ReturnType<typeof getAuth>, {
   get: (_, prop: string) => {
     const auth = getAuth(getAdminApp());
     const val = (auth as unknown as Record<string, unknown>)[prop];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     return typeof val === "function" ? (val as Function).bind(auth) : val;
   },
 });
